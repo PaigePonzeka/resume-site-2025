@@ -65,14 +65,19 @@ const Layout = () => {
 
       <Toolbar />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
+      <Container maxWidth={false} disableGutters>
         <Box
-          component="main"
-          display="grid"
-          gap={{ xs: 4, md: 6 }}
-          gridTemplateColumns="1fr"
-        >
-          <Outlet />
+      sx={{
+        maxWidth: '1200px',
+        mx: 'auto',
+        width: '100%',
+        px: { xs: 2, sm: 4, md: 6 },
+        display: 'flex',
+        flexDirection: 'column',
+        gap: { xs: 6, md: 10 },
+      }}
+    >
+      <Outlet />
         </Box>
       </Container>
     </>

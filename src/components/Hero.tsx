@@ -4,44 +4,63 @@ import { useEffect, useState } from 'react';
 
 interface HeroProps {
   images: string[];
-  title: string;
-  description: string;
   interval?: number; // milliseconds
 }
 
-const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
+const Hero = ({ images, interval = 6000 }: HeroProps) => {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const phrases = ['a software engineer', 'a solutions architect', 'an adventurer'];
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
 
   useEffect(() => {
-    let frameId: number;
-    let start: number;
+    const phrase = phrases[phraseIndex];
+    let charIndex = 0;
+    let typingTimeout: NodeJS.Timeout;
+    let pauseTimeout: NodeJS.Timeout;
 
-    const animateProgress = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const elapsed = timestamp - start;
-      const percent = Math.min((elapsed / interval) * 100, 100);
-      setProgress(percent);
-
-      if (percent < 100) {
-        frameId = requestAnimationFrame(animateProgress);
+    const type = () => {
+      if (charIndex <= phrase.length) {
+        setDisplayedText(phrase.slice(0, charIndex));
+        charIndex++;
+        typingTimeout = setTimeout(type, 80);
       } else {
-        setIndex((prevIndex) => (prevIndex + 1) % images.length);
-        setProgress(0);
-        start = 0;
-        frameId = requestAnimationFrame(animateProgress); // restart animation
+        pauseTimeout = setTimeout(() => {
+          setPhraseIndex((prev) => (prev + 1) % phrases.length);
+        }, 1500);
       }
     };
 
-    frameId = requestAnimationFrame(animateProgress);
+    type();
 
-    return () => cancelAnimationFrame(frameId);
+    return () => {
+      clearTimeout(typingTimeout);
+      clearTimeout(pauseTimeout);
+    };
+  }, [phraseIndex]);
+
+  useEffect(() => {
+    let progressValue = 0;
+    const step = 100 / (interval / 100);
+    const id = setInterval(() => {
+      progressValue += step;
+      setProgress(progressValue);
+
+      if (progressValue >= 100) {
+        setIndex((prevIndex) => (prevIndex + 1) % images.length);
+        progressValue = 0;
+        setProgress(0);
+      }
+    }, 100);
+
+    return () => clearInterval(id);
   }, [images.length, interval]);
 
   const nextImages = images.slice(index + 1).concat(images.slice(0, index));
 
   return (
-    <Box sx={{ position: 'relative', height: '80vh', overflow: 'hidden', borderRadius: '24px', mb: { xs: 6, md: 10 } }}>
+    <Box sx={{ position: 'relative', height: '60vh', overflow: 'hidden', borderRadius: '24px', mb: { xs: 6, md: 10 } }}>
       {/* Background image carousel */}
       <AnimatePresence mode="wait">
         <motion.img
@@ -85,14 +104,15 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
           zIndex: 2,
           height: '100%',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          justifyContent: 'space-evenly',
+          flexDirection: "column",
           px: { xs: 2, sm: 4, md: 6 },
         }}
       >
         <Box
           sx={{
-            maxWidth: { xs: '100%', md: '60%' },
+            width: '100%',
             color: 'white',
             textShadow: '0 0 8px rgba(0,0,0,0.8)',
           }}
@@ -101,16 +121,32 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
             variant="h3"
             fontWeight={600}
             gutterBottom
-            sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
+            sx={{
+              fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
+              minHeight: '3.5rem',
+              display: 'inline-block',
+            }}
           >
-            {title}
+            Paige is{' '}
+            <span style={{ fontWeight: 600 }}>
+              {displayedText}
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: '1ch',
+                  animation: 'blink 1s step-end infinite',
+                }}
+              >
+                |
+              </span>
+            </span>
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{ mb: 3, fontSize: { xs: '1rem', md: '1.125rem' } }}
-          >
-            {description}
-          </Typography>
+          
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" style={{
+                  marginBottom: '1em',
+                }}>Over a decade of turning ideas into impactful interfaces — with a human-first mindset.</Typography>
           <Button variant="contained" color="primary" size="large">
             Get Started
           </Button>
@@ -171,8 +207,18 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
           }}
         />
       </Box>
+
+      {/* Keyframes for blinking cursor */}
+      <style>{`
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
     </Box>
   );
 };
 
 export default Hero;
+
+

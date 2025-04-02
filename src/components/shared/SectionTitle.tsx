@@ -1,21 +1,20 @@
 import { Typography } from '@mui/material';
+import { motion } from 'framer-motion';
 
-interface SectionTitleProps {
-  text: string;
-  level?: 'h2' | 'h3';
-}
+const MotionTypography = motion(Typography);
 
-const SectionTitle = ({ text, level = 'h2' }: SectionTitleProps) => {
-  return (
-    <Typography
-      variant={level === 'h2' ? 'h5' : 'h6'}
-      component={level}
-      gutterBottom
-      sx={{ fontWeight: 600, mb: 2 }}
-    >
-      {text}
-    </Typography>
-  );
-};
+const SectionTitle = ({ text }: { text: string }) => (
+  <MotionTypography
+    variant="h4"
+    component="h2"
+    gutterBottom
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: 'easeOut' }}
+  >
+    {text}
+  </MotionTypography>
+);
 
 export default SectionTitle;
+

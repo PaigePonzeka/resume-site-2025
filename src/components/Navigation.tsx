@@ -13,16 +13,16 @@ import {
 import { NavLink } from 'react-router-dom';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/logo.png';
 
 interface NavigationProps {
   isMobile: boolean;
 }
 
 const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Contact', to: '/contact' },
+  // { label: 'Home', to: '/' },
+  //{ label: 'About', to: '/about' },
+  //{ label: 'Contact', to: '/contact' },
 ];
 
 const Navigation = ({ isMobile }: NavigationProps) => {
@@ -58,7 +58,7 @@ const Navigation = ({ isMobile }: NavigationProps) => {
           height={36}
           style={{ borderRadius: '4px', objectFit: 'cover' }}
         />
-        <Typography variant="h6">My React Site</Typography>
+        <Typography variant="h6">Paige Ponzeka</Typography>
       </Box>
 
       {/* Desktop Navigation */}
