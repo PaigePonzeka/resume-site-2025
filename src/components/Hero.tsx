@@ -60,7 +60,7 @@ const Hero = ({ images, interval = 6000 }: HeroProps) => {
   const nextImages = images.slice(index + 1).concat(images.slice(0, index));
 
   return (
-    <Box sx={{ position: 'relative', height: '60vh', overflow: 'hidden', borderRadius: '24px', mb: { xs: 6, md: 10 } }}>
+    <Box sx={{ position: 'relative', height: '60vh', overflow: 'hidden', borderBottomRadius: '24px', mb: { xs: 6, md: 10 } }}>
       {/* Background image carousel */}
       <AnimatePresence mode="wait">
         <motion.img
@@ -78,7 +78,8 @@ const Hero = ({ images, interval = 6000 }: HeroProps) => {
             height: '100%',
             objectFit: 'cover',
             zIndex: 0,
-            borderRadius: '24px',
+            borderBottomLeftRadius: '24px',
+            borderBottomRightRadius: '24px',
           }}
         />
       </AnimatePresence>
@@ -93,7 +94,7 @@ const Hero = ({ images, interval = 6000 }: HeroProps) => {
           height: '100%',
           background: 'rgba(0, 0, 0, 0.4)',
           zIndex: 1,
-          borderRadius: '24px',
+          borderBottomRadius: '24px',
         }}
       />
 
@@ -151,37 +152,36 @@ const Hero = ({ images, interval = 6000 }: HeroProps) => {
             Get Started
           </Button>
         </Box>
+              {/* Preview strip */}
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 16,
+            left: 16,
+            display: 'flex',
+            gap: 1,
+            zIndex: 2,
+          }}
+        >
+          {nextImages.slice(0, 3).map((img, i) => (
+            <Box
+              key={i}
+              component="img"
+              src={img}
+              alt="preview"
+              sx={{
+                width: 64,
+                height: 40,
+                objectFit: 'cover',
+                borderRadius: 1,
+                opacity: 0.6,
+                border: '1px solid rgba(255,255,255,0.2)',
+                backdropFilter: 'blur(4px)',
+              }}
+            />
+          ))}
+        </Box>
       </Container>
-
-      {/* Preview strip */}
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: 16,
-          left: 16,
-          display: 'flex',
-          gap: 1,
-          zIndex: 2,
-        }}
-      >
-        {nextImages.slice(0, 3).map((img, i) => (
-          <Box
-            key={i}
-            component="img"
-            src={img}
-            alt="preview"
-            sx={{
-              width: 64,
-              height: 40,
-              objectFit: 'cover',
-              borderRadius: 1,
-              opacity: 0.6,
-              border: '1px solid rgba(255,255,255,0.2)',
-              backdropFilter: 'blur(4px)',
-            }}
-          />
-        ))}
-      </Box>
 
       {/* Timing indicator */}
       <Box

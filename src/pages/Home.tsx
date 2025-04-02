@@ -1,4 +1,4 @@
-import { Grid, Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import PageContainer from '../components/PageContainer';
 import SectionCard from '../components/shared/SectionCard';
 import SectionTitle from '../components/shared/SectionTitle';
@@ -6,10 +6,7 @@ import { motion } from 'framer-motion';
 import { Code, ColorLens, Devices, Insights, RocketLaunch, SupervisorAccount } from '@mui/icons-material';
 import FeatureGrid from '../components/shared/FeatureGrid';
 import DividerWithText from '../components/shared/DividerWithText';
-import GlassCard from '../components/GlassCard';
-import FrostedSection from '../components/FrostedSection';
 import CTASection from '../components/CTASection';
-import TimelineSection from '../components/TimelineSection';
 import Hero from '../components/Hero';
 import Image1 from "../assets/hero/image_1.jpg";
 import Image2 from "../assets/hero/image_2.jpg";
@@ -56,21 +53,23 @@ const Home = () => {
   
 
   return (
-    
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.4, ease: 'easeInOut' }}
-    >
-      <PageContainer gap={2} sx={{ mt: { xs: 4, md: 6 } }}>
-        <Hero
+    <div className="HERE">
+    <Hero
           images={[
             `${Image1}`,
             `${Image2}`,
             `${Image3}`,
           ]}
         />
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
+    >
+      
+      <PageContainer gap={2} sx={{ mt: { xs: 4, md: 6 } }}>
+        
         <SectionCard>
           <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={4} alignItems="stretch">
             <Box
@@ -133,6 +132,7 @@ const Home = () => {
         />
       </PageContainer>
     </motion.div>
+    </div>
   );
 };
 

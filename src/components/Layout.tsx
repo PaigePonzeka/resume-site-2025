@@ -67,16 +67,13 @@ const Layout = () => {
 
       <Container maxWidth={false} disableGutters>
         <Box
-      sx={{
-        maxWidth: '1200px',
-        mx: 'auto',
-        width: '100%',
-        px: { xs: 2, sm: 4, md: 6 },
-        display: 'flex',
-        flexDirection: 'column',
-        gap: { xs: 6, md: 10 },
-      }}
-    >
+          sx={{
+            mx: 'auto',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
       <Outlet />
         </Box>
       </Container>
