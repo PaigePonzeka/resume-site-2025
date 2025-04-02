@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import Navigation from './Navigation';
+import Footer from './Footer';
 
 const Layout = () => {
   const [showAppBar, setShowAppBar] = useState(true);
@@ -62,9 +63,7 @@ const Layout = () => {
           </Toolbar>
         </AppBar>
       </motion.div>
-
       <Toolbar />
-
       <Container maxWidth={false} disableGutters>
         <Box
           sx={{
@@ -77,6 +76,7 @@ const Layout = () => {
       <Outlet />
         </Box>
       </Container>
+      <Footer />
     </>
   );
 };
