@@ -14,24 +14,34 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const step = 100 / (interval / 100);
-    const intervalId = setInterval(() => {
-      setProgress((prev) => {
-        if (prev + step >= 100) {
-          setIndex((prevIndex) => (prevIndex + 1) % images.length);
-          return 0;
-        }
-        return prev + step;
-      });
-    }, 100);
+    let frameId: number;
+    let start: number;
 
-    return () => clearInterval(intervalId);
+    const animateProgress = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const percent = Math.min((elapsed / interval) * 100, 100);
+      setProgress(percent);
+
+      if (percent < 100) {
+        frameId = requestAnimationFrame(animateProgress);
+      } else {
+        setIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setProgress(0);
+        start = 0;
+        frameId = requestAnimationFrame(animateProgress); // restart animation
+      }
+    };
+
+    frameId = requestAnimationFrame(animateProgress);
+
+    return () => cancelAnimationFrame(frameId);
   }, [images.length, interval]);
 
   const nextImages = images.slice(index + 1).concat(images.slice(0, index));
 
   return (
-    <Box sx={{ position: 'relative', height: '80vh', overflow: 'hidden' }}>
+    <Box sx={{ position: 'relative', height: '80vh', overflow: 'hidden', borderRadius: '24px', mb: { xs: 6, md: 10 } }}>
       {/* Background image carousel */}
       <AnimatePresence mode="wait">
         <motion.img
@@ -49,6 +59,7 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
             height: '100%',
             objectFit: 'cover',
             zIndex: 0,
+            borderRadius: '24px',
           }}
         />
       </AnimatePresence>
@@ -63,6 +74,7 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
           height: '100%',
           background: 'rgba(0, 0, 0, 0.4)',
           zIndex: 1,
+          borderRadius: '24px',
         }}
       />
 
@@ -71,24 +83,38 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
         sx={{
           position: 'relative',
           zIndex: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
           height: '100%',
-          color: 'white',
-          textShadow: '0 0 8px rgba(0,0,0,0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          px: { xs: 2, sm: 4, md: 6 },
         }}
       >
-        <Typography variant="h3" fontWeight={600} gutterBottom>
-          {title}
-        </Typography>
-        <Typography variant="body1" sx={{ mb: 3, maxWidth: 500 }}>
-          {description}
-        </Typography>
-        <Button variant="contained" color="primary">
-          Get Started
-        </Button>
+        <Box
+          sx={{
+            maxWidth: { xs: '100%', md: '60%' },
+            color: 'white',
+            textShadow: '0 0 8px rgba(0,0,0,0.8)',
+          }}
+        >
+          <Typography
+            variant="h3"
+            fontWeight={600}
+            gutterBottom
+            sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
+          >
+            {title}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ mb: 3, fontSize: { xs: '1rem', md: '1.125rem' } }}
+          >
+            {description}
+          </Typography>
+          <Button variant="contained" color="primary" size="large">
+            Get Started
+          </Button>
+        </Box>
       </Container>
 
       {/* Preview strip */}
@@ -131,6 +157,9 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
           width: '100%',
           backgroundColor: 'rgba(255,255,255,0.1)',
           zIndex: 2,
+          borderBottomLeftRadius: '24px',
+          borderBottomRightRadius: '24px',
+          overflow: 'hidden',
         }}
       >
         <Box
@@ -147,4 +176,3 @@ const Hero = ({ images, title, description, interval = 6000 }: HeroProps) => {
 };
 
 export default Hero;
-

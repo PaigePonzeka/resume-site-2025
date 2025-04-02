@@ -40,17 +40,16 @@ const Home = () => {
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.4, ease: 'easeInOut' }}
     >
-      <Hero
-        images={[
-          `${Image1}`,
-          `${Image2}`,
-          `${Image3}`,
-        ]}
-        title="Welcome to My Portfolio"
-        description="Building modern, animated, and responsive web experiences."
-      />
-      <PageContainer title="Welcome to My React Site">
-      
+      <PageContainer>
+        <Hero
+          images={[
+            `${Image1}`,
+            `${Image2}`,
+            `${Image3}`,
+          ]}
+          title="Welcome to My Portfolio"
+          description="Building modern, animated, and responsive web experiences."
+        />
         <SectionCard>
           <SectionTitle text="Project Overview" />
           <Typography variant="body1">

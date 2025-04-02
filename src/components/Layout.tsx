@@ -6,6 +6,7 @@ import {
   Container,
   useMediaQuery,
   useTheme,
+  Box,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import Navigation from './Navigation';
@@ -64,8 +65,15 @@ const Layout = () => {
 
       <Toolbar />
 
-      <Container sx={{ py: 4 }}>
-        <Outlet />
+      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
+        <Box
+          component="main"
+          display="grid"
+          gap={{ xs: 4, md: 6 }}
+          gridTemplateColumns="1fr"
+        >
+          <Outlet />
+        </Box>
       </Container>
     </>
   );
