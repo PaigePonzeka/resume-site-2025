@@ -51,13 +51,13 @@ const Navigation = ({ isMobile }: NavigationProps) => {
           },
         }}
       >
-        <img
+       {/*} <img
           src={logo}
           alt="Logo"
           width={36}
           height={36}
           style={{ borderRadius: '4px', objectFit: 'cover' }}
-        />
+        />*/}
         <Typography variant="h6">Paige Ponzeka</Typography>
       </Box>
 

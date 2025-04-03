@@ -1,6 +1,7 @@
 import PageContainer from '../components/PageContainer';
 import { motion } from 'framer-motion';
 import TimelineSection from '../components/TimelineSection';
+import CTASection from '../components/CTASection';
 
 const About = () => {
 
