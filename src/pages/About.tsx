@@ -63,7 +63,7 @@ const About = () => {
           description="Here’s a look at how I’ve grown professionally over the years."
           events={careerJourney}
         />
-                <CTASection
+        <CTASection
           title="Ready to launch your vision?"
           subtitle="Let's collaborate and turn your idea into a reality."
           primaryAction={{ label: 'Get in Touch', to: '/contact' }}

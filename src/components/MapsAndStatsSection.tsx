@@ -230,7 +230,7 @@ const MapsAndStatsSection: React.FC = () => {
       'line-cap': 'round',
     },
     paint: {
-      'line-color': theme.palette.grey[300],
+      'line-color': theme.palette.grey[500],
       'line-width': 3,
     }
   };
@@ -284,7 +284,7 @@ const MapsAndStatsSection: React.FC = () => {
           id="driving-route" 
           type="geojson" 
           data={currentRoute}>
-              <Layer {...routeLayerStyle} />
+            <Layer {...routeLayerStyle} />
         </Source>
         <AnimatePresence>
         {currentStops.map((stop, index) => (
