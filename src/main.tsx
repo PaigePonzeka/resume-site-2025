@@ -9,7 +9,7 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/resume-site-2025">
       <ThemeProvider theme={theme}>
         <CssBaseline /> {/* Applies dark background + text colors */}
         <App />

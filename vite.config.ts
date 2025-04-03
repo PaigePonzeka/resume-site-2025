@@ -8,5 +8,10 @@ export default defineConfig({
     react(),
     svgr(),
   ],
+  build: {
+    rollupOptions: {
+      input: 'index.html',
+    },
+  },
 });
 
