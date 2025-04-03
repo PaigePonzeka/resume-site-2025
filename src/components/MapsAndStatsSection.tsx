@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import ReactMapGL, { Source, Layer, Marker, FillLayer, LineLayer } from 'react-map-gl';
+import ReactMapGL, { Source, Layer, FillLayer, LineLayer } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox CSS
 import StatsSection from './StatSection'
 import { StatProps } from './Stat';
 import { StopsData, StopsDataProps } from "../Global/StopsData";
 import { NationalParksCoordinateMap } from "../Global/NationalParkData";
 import RouteJson from "../Global/RouteData.json";
-import PlaceIcon from '@mui/icons-material/Place';
-import { alpha, Theme, useTheme } from "@mui/material";
-import ParkIcon from '@mui/icons-material/Park';
-import { AnimatePresence, motion } from 'framer-motion';
+import { alpha, useTheme } from "@mui/material";
+import { AnimatePresence} from 'framer-motion';
+import MapPlaceMarker from './Map/MapPlaceMarker';
+import NationalParkMarker from './Map/NationalParkMarker';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGFpZ2Vwb24iLCJhIjoiY2tzdnJiMTRzMXNjODJubGV2dDBhaDQzNCJ9.ugD_4F0bN-AvV3sMi_hDUg'; // Replace with your Mapbox toke
 /**
@@ -34,7 +34,6 @@ const MapsAndStatsSection: React.FC = () => {
   const [currentNationalParks, setCurrentNationalParks] = useState<StopsDataProps[]>([])
   const allStops:StopsDataProps[] = StopsData;
   const theme = useTheme();
-
 
   // load the state geojson
   useEffect(() => {
@@ -104,8 +103,6 @@ const MapsAndStatsSection: React.FC = () => {
       .map((part) => part.trim())
       .filter((part) => part !== '');
   }
-
-
 
   // set the interval to set the states
   useEffect(() => {
@@ -265,8 +262,6 @@ const MapsAndStatsSection: React.FC = () => {
     }
     
 ]
-
-
   return (
     <div>
       <StatsSection stats={stats}/>
@@ -297,95 +292,14 @@ const MapsAndStatsSection: React.FC = () => {
         ))}
         </AnimatePresence>
         {currentNationalParks.map((stop, index) => (
-          <Marker
-            key={`stop-${index}`}
-            longitude={stop.Coordinates[0]}
-            latitude={stop.Coordinates[1]}
-          >
-            <motion.div
-              initial={{ opacity: 0 }} // Start with 0 opacity
-              animate={{ opacity: 1 }} // Animate to 1 opacity
-              transition={{ duration: 0.5 }} // Adjust duration as needed
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row-reverse'
-              }}
-            >
-              <span role="img" aria-label="marker" style={{ fontSize: '1em' }}>
-                <ParkIcon fontSize="small" style={{color: theme.palette.grey[700]}} />
-              </span>
-
-             
-            </motion.div>
-          </Marker>
+          <NationalParkMarker key={index} stop={stop} theme={theme} />
         ))}
       </ReactMapGL>
     </div>
   );
 };
 
-type MapPlaceMakerProps = {
-  name: string;
-  coordinates: [number, number]
-  theme: Theme;
-
-}
-const MapPlaceMarker = ({name, coordinates,theme}: MapPlaceMakerProps) => {
-  const [showLabel, setShowLabel] = useState(true);
-  // TODO - show the label on initial load 
-
-  // hide label after an amount of time
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLabel(false);
-    }, 1000);
-
-    // Clean up the timer to avoid potential memory leaks
-    return () => clearTimeout(timer);
-  }, []); 
 
 
-  return <Marker
-  longitude={coordinates[0]}
-  latitude={coordinates[1]}
-  >
-   
-  <motion.div
-    initial={{ opacity: 0, scale: 0.5 }}
-    animate={{ opacity: 1, scale: 1 }} // Animate parent to opacity 0
-    transition={{ duration: 0.5 }} // After 2 seconds
-    whileHover={{ scale: 1.2 }} // Scale up slightly on hover
-    onHoverStart={(e) => {setShowLabel(true)}}
-    onHoverEnd={(e) => {setShowLabel(false)}}
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      cursor: 'pointer'
-      
-    }}
-  >
-    <span role="img" aria-label="marker" style={{ fontSize: '2em' }}>
-      <PlaceIcon fontSize="medium" color="primary" />
-    </span>
-    
-      <div
-       style={{ 
-        marginLeft: '5px', 
-        padding: '4px 8px', 
-        fontSize: '12px', 
-        color: theme.palette.primary.main, 
-        backgroundColor: alpha(theme.palette.grey[100], 0.8), 
-        opacity: showLabel ? 1 : 0,
-        borderRadius: '5px'}}
-      >
-        {name}
-      </div>
-      
-   
-  </motion.div>
-</Marker>
-}
 
 export default MapsAndStatsSection;
