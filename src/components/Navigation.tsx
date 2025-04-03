@@ -13,7 +13,6 @@ import {
 import { NavLink } from 'react-router-dom';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import logo from '../assets/logo.png';
 
 interface NavigationProps {
   isMobile: boolean;
@@ -23,6 +22,7 @@ const navLinks = [
   // { label: 'Home', to: '/' },
   //{ label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
+  { label: 'Map', to: '/map' },
 ];
 
 const Navigation = ({ isMobile }: NavigationProps) => {
