@@ -10,6 +10,7 @@ import { alpha, useTheme } from "@mui/material";
 import { AnimatePresence} from 'framer-motion';
 import MapPlaceMarker from './Map/MapPlaceMarker';
 import NationalParkMarker from './Map/NationalParkMarker';
+import { Box } from '@mui/material';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGFpZ2Vwb24iLCJhIjoiY2tzdnJiMTRzMXNjODJubGV2dDBhaDQzNCJ9.ugD_4F0bN-AvV3sMi_hDUg'; // Replace with your Mapbox toke
 /**
@@ -263,39 +264,65 @@ const MapsAndStatsSection: React.FC = () => {
     
 ]
   return (
-    <div>
+    <Box sx={{ 
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 2,
+      height: '80vh', 
+      minHeight: '600px' 
+    }}>
       <StatsSection stats={stats}/>
-      <ReactMapGL
-        ref={mapRef}
-        initialViewState={{
-          latitude: 37.8,
-          longitude: -96,
-          zoom: 3.5,
-        }}
-        style={{ width: '100%', height: '500px' }}
-        mapStyle="mapbox://styles/mapbox/light-v10"
-        mapboxAccessToken={MAPBOX_TOKEN}
-        scrollZoom={false}
-      >
-        <Source id="us-states" type="geojson" data={data}>
-            <Layer {...fillLayerStyle} />
-        </Source>
-        <Source 
-          id="driving-route" 
-          type="geojson" 
-          data={currentRoute}>
-            <Layer {...routeLayerStyle} />
-        </Source>
-        <AnimatePresence>
-        {currentStops.map((stop, index) => (
-          <MapPlaceMarker  key={`stop-${index}`} name={stop.Name} coordinates={stop.Coordinates} theme={theme} />
-        ))}
-        </AnimatePresence>
-        {currentNationalParks.map((stop, index) => (
-          <NationalParkMarker key={index} stop={stop} theme={theme} />
-        ))}
-      </ReactMapGL>
-    </div>
+      <Box sx={{ 
+        flex: 1,
+        position: 'relative',
+        borderRadius: 1,
+        overflow: 'hidden',
+        boxShadow: 3,
+        border: '1px solid',
+        borderColor: 'divider',
+        '& .mapboxgl-map': {
+          width: '100% !important',
+          height: '100% !important'
+        }
+      }}>
+        <ReactMapGL
+          ref={mapRef}
+          initialViewState={{
+            latitude: 37.8,
+            longitude: -96,
+            zoom: 3.5,
+            pitch: 0
+          }}
+          style={{
+            width: '100%',
+            height: '100%'
+          }}
+          mapStyle="mapbox://styles/mapbox/light-v10"
+          mapboxAccessToken={MAPBOX_TOKEN}
+          scrollZoom={true}
+          projection="mercator"
+        >
+          <Source id="us-states" type="geojson" data={data}>
+              <Layer {...fillLayerStyle} />
+          </Source>
+          <Source 
+            id="driving-route" 
+            type="geojson" 
+            data={currentRoute}>
+              <Layer {...routeLayerStyle} />
+          </Source>
+          <AnimatePresence>
+          {currentStops.map((stop, index) => (
+            <MapPlaceMarker  key={`stop-${index}`} name={stop.Name} coordinates={stop.Coordinates} theme={theme} />
+          ))}
+          </AnimatePresence>
+          {currentNationalParks.map((stop, index) => (
+            <NationalParkMarker key={index} stop={stop} theme={theme} />
+          ))}
+        </ReactMapGL>
+      </Box>
+    </Box>
   );
 };
 
