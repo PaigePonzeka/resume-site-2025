@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme/theme';
+import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
-import { BrowserRouter} from 'react-router-dom';
 import './index.css';
 
 // Handle redirect from 404.html
@@ -21,18 +21,25 @@ const Root = () => {
     handleRedirect();
   }, []);
 
+  // Set basename to empty string for local development
+  const basename = import.meta.env.PROD ? '/resume-site-2025' : '/';
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Applies dark background + text colors */}
-      <App />
-    </ThemeProvider>
+    <BrowserRouter basename={basename}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/resume-site-2025">
-      <Root />
-    </BrowserRouter>
+    <Root />
   </React.StrictMode>
 );
