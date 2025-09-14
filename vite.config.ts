@@ -7,7 +7,7 @@ export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';
   
   return {
-    base: isProduction ? '/resume-site-2025/' : '/',
+    base: '/',
     plugins: [
       react(),
       svgr(),
