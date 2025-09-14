@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://paigeponzeka.github.io/resume-site-2025",
+  "homepage": "https://ponzeka.com",
   "scripts": {
     "lint": "eslint .",
     "dev": "vite --open",
