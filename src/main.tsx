@@ -22,7 +22,7 @@ const Root = () => {
   }, []);
 
   // Set basename to empty string for local development
-  const basename = import.meta.env.PROD ? './' : '/';
+  const basename = import.meta.env.PROD ? '/' : '/';
 
   return (
     <BrowserRouter basename={basename}>
